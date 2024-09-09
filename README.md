@@ -1,6 +1,6 @@
 # Project 1
 
-## Welcome to my data science project. I'm still in deciding what to work on, and what the thesis of my project is going to be, but this is where I will update it, along with my work.
+## Welcome to my data science project. I'm still exploring options for this repo, but I think that I'll be looking into the project described below.
 
 ### Houthi Attacks and Shipping trends
 
