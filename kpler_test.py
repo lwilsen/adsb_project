@@ -3,6 +3,7 @@ and to use the requests module to access the KPLER api."""
 
 import os
 import requests
+import requests.api
 
 kpler_access_token = os.getenv("KPLER_TOKEN")
 
@@ -13,6 +14,6 @@ headers = {
     'Authorization': f"Basic {kpler_access_token}"
 }
 
-response = requests.request("GET", URL, headers=headers, data=payload)
+response = requests.api.get(URL, headers=headers, data=payload, timeout=10)
 
 print(response.text)
