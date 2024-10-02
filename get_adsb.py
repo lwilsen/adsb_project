@@ -61,7 +61,7 @@ def get_n_store():
             df = pd.DataFrame(adsb_data).loc[:, focus_features]
             bad_data_path = os.path.join(BAD_DATA_DIR, "bad_data.csv")
             
-            if (df.columns != focus_features).all():
+            if (df.columns != focus_features).any():
                 #Don't want to waste an api call on data that's missing a column or two
                 df_weird = pd.DataFrame(adsb_data)
                 df_weird['timestamp'] = datetime.now(timezone.utc)
