@@ -27,6 +27,10 @@ DISTANCE = 50
 DATA_DIR = "adsb_data"
 os.makedirs(DATA_DIR, exist_ok=True) #creates new directory if needed, otherwise does nothing
 
+#Initialize databse for data with differing number of columns, (or that doesn't fit with focus features)
+BAD_DATA_DIR = "adsb_data/weird_data"
+os.makedirs(BAD_DATA_DIR, exist_ok=True)
+
 #create a function to get and store data
 
 def get_n_store():
@@ -55,7 +59,18 @@ def get_n_store():
         
         try:
             df = pd.DataFrame(adsb_data).loc[:, focus_features]
-        
+            bad_data_path = os.path.join(BAD_DATA_DIR, "bad_data.csv")
+            
+            if (df.columns != focus_features).all():
+                #Don't want to waste an api call on data that's missing a column or two
+                df_weird = pd.DataFrame(adsb_data)
+                df_weird['timestamp'] = datetime.now(timezone.utc)
+
+                if not os.path.isfile(bad_data_path):
+                    df_weird.to_csv(bad_data_path, index=False, mode="w",header=True)
+                else:
+                    df_weird.to_csv(bad_data_path, index=False, mode="a", header=False)
+
         except Exception as e:
             print(f"Feature selection error: {e}")
 
@@ -77,7 +92,7 @@ def get_n_store():
 
     except Exception as e:
         #returns the error with the time it occurred
-        print(f'{datetime.now(timezone.utc)}: An error occured: ({e})')
+        return(f'{datetime.now(timezone.utc)}: An error occured: ({e})')
 
 '''Schedule function to run every 5 minutes (equates to 288 calls/24hr)'''
 
