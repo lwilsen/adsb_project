@@ -10,7 +10,7 @@ Using ADSB and potentially meteorological data, I want to investigate
 - If it is possible to classify aircraft type/category based on flight patterns (speed, altitude ... etc.)
 - Any emergency or alert indicators and the possibility of predicting them
 
-## Project idea 2
+# Project idea 2
 - if there is any predictability behind which ships are at risk of Houthi attacks
 - which ships are specifically NOT at risk of Houthi attacks
 - patterns in attack frequency of Houthi attacks
