@@ -59,23 +59,19 @@ def get_n_store():
         
         try:
             df = pd.DataFrame(adsb_data).loc[:, focus_features]
-            bad_data_path = os.path.join(BAD_DATA_DIR, "bad_data.csv")
-            
-            if (df.columns != focus_features).any():
-                #Don't want to waste an api call on data that's missing a column or two
-                df_weird = pd.DataFrame(adsb_data)
-                df_weird['timestamp'] = datetime.now(timezone.utc)
-
-                if not os.path.isfile(bad_data_path):
-                    df_weird.to_csv(bad_data_path, index=False, mode="w",header=True)
-                else:
-                    df_weird.to_csv(bad_data_path, index=False, mode="a", header=False)
 
         except Exception as e:
             print(f"Feature selection error: {e}")
+            bad_data_path = os.path.join(BAD_DATA_DIR, "bad_data.csv")
+            
+            df_weird = pd.DataFrame(adsb_data)
+            df_weird['timestamp'] = datetime.now(timezone.utc)
 
-        if not df.shape[1] == 20:
-            return("df.shape[1] != 20")
+            if not os.path.isfile(bad_data_path):
+                df_weird.to_csv(bad_data_path, index=False, mode="w",header=True)
+            else:
+                df_weird.to_csv(bad_data_path, index=False, mode="a", header=True)
+            print(f"{datetime.now(timezone.utc)}: INCOMPLETE data fetched and stored!")
         
         df['timestamp'] = datetime.now(timezone.utc)
         df['mph'] = (df['gs'] * 1.151)
