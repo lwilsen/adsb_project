@@ -1,11 +1,16 @@
-# Project 1
+# Project idea 1
 
 ## Welcome to my data science project. I'm still exploring options for this repo, but I think that I'll be looking into the project described below.
 
-### Houthi Attacks and Shipping trends
+### Tampa Area Flight Patterns
 
-Using a combination of ACLED, KPLER and potentially GDELT data, determine 
+Using ADSB and potentially meteorological data, I want to investigate
 
+- If there are is any predictability behind flight delays in the Tampa Bay area
+- If it is possible to classify aircraft type/category based on flight patterns (speed, altitude ... etc.)
+- Any emergency or alert indicators and the possibility of predicting them
+
+## Project idea 2
 - if there is any predictability behind which ships are at risk of Houthi attacks
 - which ships are specifically NOT at risk of Houthi attacks
 - patterns in attack frequency of Houthi attacks
