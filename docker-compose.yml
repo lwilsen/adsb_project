@@ -1,0 +1,44 @@
+services:
+  database:
+    build:
+      context: ./Database
+      dockerfile: Dockerfile
+    container_name: adsb_database
+    volumes:
+      - ./Database/final_project.db:/app/final_project.db
+
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: fastapi_route
+    ports:
+      - 5001:5001
+    depends_on:
+      - database
+    volumes:
+      - ./Backend:/app
+      - ./Database/adsb_data.db:/app/adsb_data.db
+
+  frontend:
+    build:
+      context: ./Frontend
+      dockerfile: Dockerfile
+    container_name: adsb_frontend
+    ports:
+      - 8001:8001
+    develop:
+      watch:
+        - action: sync
+          path: ./Frontend/adsb_front.py
+          target: /app/Home.py
+          #command: docker-compose restart adsb_frontend
+        - action: sync
+          path: ./pages
+          target: /app/pages
+          #command: docker-compose restart adsb_frontend
+    depends_on:
+      - backend
+    volumes:
+      - ./Frontend:/app
+      - ./Database/adsb_data.db:/app/adsb_data.db
