@@ -3,3 +3,13 @@ acled_data.csv
 adsb_data/
 
 Backend/rf_best_mod.pkl
+
+.DS_store
+
+Frontend/.DS_store
+
+Backend/.DS_store
+
+Database/.DS_store
+
+.github/.DS_store
