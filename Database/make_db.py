@@ -4,7 +4,7 @@ import sqlite3
 import pandas as pd
 
 combined_df = pd.read_csv("adsb_data/combined_df.csv")
-cleaned_df = pd.read_csv("./adsb_data/preprocessed_ads_b_data.csv")
+cleaned_df = pd.read_csv("adsb_data/preprocessed_ads_b_data.csv")
 
 '''Data Processing'''
 

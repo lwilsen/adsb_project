@@ -2,7 +2,6 @@ import sqlite3
 import pickle
 import pandas as pd
 from fastapi import FastAPI, HTTPException, Request
-from sklearn.preprocessing import MinMaxScaler
 
 '''SQLITE'''
 
@@ -10,7 +9,7 @@ def query_database(q):
     '''Queries sqlite databse for current adsb data'''
 
     try:
-        conn = sqlite3.connect('/app/final_project')
+        conn = sqlite3.connect('/app/adsb_data.db')
         cursor = conn.cursor()
         cursor.execute(q)
         cols = [description[0] for description in cursor.description]
@@ -20,14 +19,13 @@ def query_database(q):
     except sqlite3.Error as e:
         return {"Error": str(e)}
     
-'''Unpickling models and scalers'''
+'''Unpickling models and encoder'''
 
 with open("rf_best_mod.pkl",'rb') as mod:
     rf_mod = pickle.load(mod) 
 
-with open("mm_scaler.pkl",'rb') as f:
-    mm_scaler = pickle.load(f)
-
+with open("adsb_le.pkl", 'rb') as f:
+    le = pickle.load(f)
 '''Fast API'''
 
 app = FastAPI()
@@ -54,6 +52,8 @@ async def predict(request : Request):
         'nac_v']
     
         data = await request.json()
+
+        
 
         df = pd.DataFrame([data], columns=cols)
         print(df)
@@ -84,7 +84,7 @@ async def query_data(request:Request):
     try:
         data = await request.json()
         query = data.get("query")
-
+        print(query)
         if not query:
             raise HTTPException(status_code=400, detail= "No query provided")
         
